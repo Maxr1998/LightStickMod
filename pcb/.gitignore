@@ -1,0 +1,13 @@
+# KiCAD backup files
+*.*bak
+*-backups/
+
+# Temporary files
+*-cache.lib
+*-rescue.*
+fp-info-cache
+fp-lib-table
+sym-lib-table
+
+# Netlist files (exported from Eeschema)
+*.net
