@@ -3,6 +3,8 @@ esphome:
   name: lightstick
   includes:
     - loona_colors.h
+    - hsv2rgb.h
+    - rainbow_effect.h
   on_boot:
     then:
       - lambda: |-
