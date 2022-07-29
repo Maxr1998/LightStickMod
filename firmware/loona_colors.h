@@ -54,6 +54,8 @@ void go_to_next_color()
         break;
     }
     call.set_white(0.0);
-    call.set_effect("None"); // reset effect
+    call.set_effect("none"); // reset effect
     call.perform();
+
+    ESP_LOGI("loona_colors", "Changed color to member %d", id(current_member));
 }

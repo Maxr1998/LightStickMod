@@ -68,29 +68,37 @@ binary_sensor:
         input: true
         pullup: true
       inverted: true
-    on_click:
-      min_length: 50ms
-      max_length: 300ms
-      then:
-        - lambda: |-
-            go_to_next_color();
-    on_double_click:
-      min_length: 50ms
-      max_length: 300ms
-      then:
-        - logger.log: "Starting rainbow effect"
-        - light.turn_on:
-            id: leds
-            effect: Slow Rainbow
     on_multi_click:
-    - timing:
-        - ON for at least 1s
-      then:
-        - logger.log: "Entering deep sleep"
-        - light.turn_off:
-            id: leds
-        - deep_sleep.enter:
-            id: poweroff
+      - timing:
+          - ON for at most 0.5s
+          - OFF for at most 0.3s
+          - ON for at most 0.5s
+          - OFF for at least 0.2s
+        then:
+          - logger.log:
+              format: "Starting rainbow effect"
+              level: INFO
+              tag: click
+          - light.turn_on:
+              id: leds
+              effect: Fast Rainbow
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 0.2s
+        then:
+          - lambda: |-
+              go_to_next_color();
+      - timing:
+          - ON for at least 1s
+        then:
+          - logger.log:
+              format: "Entering deep sleep"
+              level: INFO
+              tag: click
+          - light.turn_off:
+              id: leds
+          - deep_sleep.enter:
+              id: poweroff
 
 # Deep Sleep
 deep_sleep:
@@ -106,7 +114,7 @@ web_server:
   include_internal: true
 
 logger:
-  level: WARN
+  level: INFO
 
 ota:
   password: !secret ota_password
