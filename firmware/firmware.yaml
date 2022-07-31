@@ -13,6 +13,9 @@ esphome:
 esp32:
   board: esp32dev
 
+external_components:
+  - source: components
+
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
@@ -106,6 +109,16 @@ deep_sleep:
   wakeup_pin: *button
   wakeup_pin_mode: KEEP_AWAKE
 
+# Bluetooth
+esp32_ble:
+
+esp32_ble_server:
+  manufacturer: Maxr1998
+  model: HighBong v2
+
+esp32_ble_lightstick:
+  light: leds
+
 # Misc
 api:
 
@@ -118,3 +131,4 @@ logger:
 
 ota:
   password: !secret ota_password
+  num_attempts: 3

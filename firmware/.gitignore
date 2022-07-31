@@ -1,3 +1,4 @@
 /.esphome/
-/cmake-build-debug/
 /secrets.yaml
+cmake-build-debug/
+__pycache__/
