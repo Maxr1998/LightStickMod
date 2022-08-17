@@ -4,6 +4,7 @@ esphome:
   includes:
     - loona_colors.h
     - hsv2rgb.h
+    - breathing_effect.h
     - rainbow_effect.h
   on_boot:
     then:

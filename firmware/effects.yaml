@@ -12,6 +12,11 @@
         white: 0%
         duration: 50ms
 - lambda:
+    name: Breathing
+    update_interval: 2s
+    lambda: |-
+      breathing_step();
+- lambda:
     name: Slow Rainbow
     update_interval: 80ms
     lambda: |-

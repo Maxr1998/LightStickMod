@@ -1,7 +1,6 @@
 #include "esphome.h"
 
-void rainbow_next(int step)
-{
+void rainbow_next(int step) {
     static int angle = 0;
 
     auto call = id(leds).turn_on();
@@ -11,8 +10,7 @@ void rainbow_next(int step)
     call.perform();
 
     angle += step;
-    if (angle >= MAX_ANGLE)
-    {
+    if (angle >= MAX_ANGLE) {
         angle = 0;
     }
 }
