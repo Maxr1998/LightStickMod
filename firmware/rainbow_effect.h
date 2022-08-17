@@ -5,6 +5,7 @@ void rainbow_next(int step) {
 
     auto call = id(leds).turn_on();
     call.set_transition_length(0);
+    call.set_brightness(1.0);
     call.set_white(0.3);
     call.set_rgb(hsv2rgb[angle][0], hsv2rgb[angle][1], hsv2rgb[angle][2]);
     call.perform();
