@@ -7,7 +7,6 @@ void go_to_next_color(esphome::light::LightState *light) {
 
     auto call = light->turn_on();
     call.set_transition_length(300);
-    call.set_brightness(1.0);
     if (current_member < 12) {
         // Starts at 0 on boot, will be at least 1 and at most 12
         current_member++;
@@ -57,7 +56,10 @@ void go_to_next_color(esphome::light::LightState *light) {
             break;
     }
     call.set_white(0.0);
-    call.set_effect("none"); // reset effect
+    if (strcasecmp(light->get_effect_name().c_str(), "breathing") != 0) {
+        call.set_brightness(1.0);
+        call.set_effect("none"); // reset effect
+    }
     call.perform();
 
     ESP_LOGI("loona_colors", "Changed color to member %d", current_member);
