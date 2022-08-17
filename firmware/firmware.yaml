@@ -9,7 +9,7 @@ esphome:
   on_boot:
     then:
       - lambda: |-
-          go_to_next_color();
+          go_to_next_color(id(leds));
 
 esp32:
   board: esp32dev
@@ -25,12 +25,6 @@ wifi:
   ap:
     ssid: "Lightstick"
     password: "dalsodalsogaja"
-
-# Variables
-globals:
-  - id: current_member
-    type: int
-    initial_value: '0'
 
 # Light
 light:
@@ -91,7 +85,7 @@ binary_sensor:
           - OFF for at least 0.2s
         then:
           - lambda: |-
-              go_to_next_color();
+              go_to_next_color(id(leds));
       - timing:
           - ON for at least 1s
         then:
