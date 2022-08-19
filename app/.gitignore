@@ -1,0 +1,18 @@
+# Build cache
+build/
+.externalNativeBuild/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# IntelliJ project files
+*.iml
+.idea/
+
+# Gradle
+.gradle/
+
+# Misc
+captures/
+.DS_Store
+*.*~

@@ -1,0 +1,38 @@
+build:
+  maxIssues: 0
+
+formatting:
+  ArgumentListWrapping:
+    active: false
+  FinalNewline:
+    active: false
+  Indentation:
+    active: false
+  MaximumLineLength:
+    # Already handled by detekt itself
+    active: false
+  MultiLineIfElse:
+    autoCorrect: false
+  PackageName:
+    # Already handled by detekt itself
+    active: false
+  TrailingComma:
+    active: true
+    allowTrailingComma: true
+    allowTrailingCommaOnCallSite: true
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated:
+      - Composable
+
+style:
+  ForbiddenComment:
+    # Allow TODOs
+    values: [ 'FIXME:', 'STOPSHIP:' ]
+  #LoopWithTooManyJumpStatements:
+  #  maxJumpCount: 6
+  MaxLineLength:
+    maxLineLength: 120
+  NewLineAtEndOfFile:
+    active: false
