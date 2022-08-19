@@ -77,6 +77,9 @@ namespace esphome {
                 if (this->light_) {
                     auto call = this->light_->turn_on();
                     call.set_effect(effect);
+                    if (effect == "None") {
+                        call.set_brightness(1.0);
+                    }
                     call.perform();
                 }
             });
