@@ -13,7 +13,7 @@ namespace esphome {
 
         LightstickBleComponent::LightstickBleComponent() {
             global_lightstick_component = this;
-        };
+        }
 
         void LightstickBleComponent::setup() {
             this->service_ = global_ble_server->create_service(SERVICE_UUID, true);
@@ -120,11 +120,11 @@ namespace esphome {
 
         void LightstickBleComponent::on_client_connect() {
             start();
-        };
+        }
 
         void LightstickBleComponent::on_client_disconnect() {
             stop();
-        };
+        }
 
         float LightstickBleComponent::get_setup_priority() const { return setup_priority::AFTER_BLUETOOTH; }
 
