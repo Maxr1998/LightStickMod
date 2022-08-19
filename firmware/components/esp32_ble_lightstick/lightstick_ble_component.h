@@ -46,15 +46,18 @@ namespace esphome {
 
             std::shared_ptr<BLEService> service_;
             BLECharacteristic *color_{nullptr};
+            BLECharacteristic *effect_{nullptr};
 
             light::LightState *light_{nullptr};
 
         private:
             void read_remote_values_();
+            void read_effect_();
         };
 
         static const char *const SERVICE_UUID = "147a1293-f137-4ca1-8410-7a50c277632e";
         static const char *const COLOR_CHARACTERISTIC_UUID = "435aeb49-d070-4e6e-8ecb-6d3459797cf7";
+        static const char *const EFFECT_CHARACTERISTIC_UUID = "5db3fa02-8556-4692-b99e-03da81fd8f10";
 
         extern uint8_t rgbw_read[4];
         extern uint8_t rgbw_write[4];

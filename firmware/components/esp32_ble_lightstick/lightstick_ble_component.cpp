@@ -60,6 +60,30 @@ namespace esphome {
             this->color_->add_descriptor(color_descriptor);
             this->read_remote_values_();
 
+            this->effect_ = this->service_->create_characteristic(EFFECT_CHARACTERISTIC_UUID,
+                                                                  BLECharacteristic::PROPERTY_READ |
+                                                                  BLECharacteristic::PROPERTY_WRITE |
+                                                                  BLECharacteristic::PROPERTY_NOTIFY);
+            this->effect_->on_write([this](const std::vector<uint8_t> &data) {
+                if (data.empty()) {
+                    ESP_LOGW(TAG, "Empty packet received");
+                    return;
+                }
+
+                std::string effect(data.begin(), data.end());
+
+                ESP_LOGI(TAG, "Received effect %s", effect.c_str());
+
+                if (this->light_) {
+                    auto call = this->light_->turn_on();
+                    call.set_effect(effect);
+                    call.perform();
+                }
+            });
+            BLEDescriptor *effect_descriptor = new BLE2902();
+            this->effect_->add_descriptor(effect_descriptor);
+            this->read_effect_();
+
             this->setup_complete_ = true;
         }
 
@@ -81,9 +105,13 @@ namespace esphome {
         void LightstickBleComponent::set_light(light::LightState *light) {
             this->light_ = light;
             this->read_remote_values_();
+            this->read_effect_();
             this->light_->add_new_remote_values_callback([this] {
-                if (this->running_ && this->light_->get_effect_name() == "None") {
-                    this->read_remote_values_();
+                if (this->running_) {
+                    if (this->light_->get_effect_name() == "None") {
+                        this->read_remote_values_();
+                    }
+                    this->read_effect_();
                 }
             });
         }
@@ -99,6 +127,19 @@ namespace esphome {
             this->color_->set_value(rgbw_read, 4);
             if (this->running_) {
                 this->color_->notify();
+            }
+        }
+
+        void LightstickBleComponent::read_effect_() {
+            if (!this->light_ || !this->effect_) return;
+
+            std::string cur_effect_name = this->light_->get_effect_name();
+            std::vector<uint8_t> cur_effect(cur_effect_name.begin(), cur_effect_name.end());
+
+            auto changed = this->effect_->get_value() != cur_effect;
+            this->effect_->set_value(cur_effect);
+            if (this->running_ && changed) {
+                this->effect_->notify();
             }
         }
 
