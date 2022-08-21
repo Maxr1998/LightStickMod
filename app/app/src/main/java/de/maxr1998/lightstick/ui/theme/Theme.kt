@@ -11,7 +11,7 @@ private val LightColorScheme = lightColors(
 )
 
 @Composable
-fun LightstickControllerTheme(content: @Composable () -> Unit) {
+fun LSCTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colors = LightColorScheme,
         typography = Typography,

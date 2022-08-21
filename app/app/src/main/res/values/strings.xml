@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Light Stick Controller</string>
+
+    <string name="ble_permission_required">Permission is required for app to function, please grant in settings</string>
+    <string name="attempting_to_connect">Attempting to connect…</string>
+    <string name="message_connected">Connected</string>
+    <string name="effect_icon_desc">Icon for %s effect</string>
+
+    <string name="error_header">Error</string>
+    <string name="error_message">Received unrecoverable error: %s.\nPlease restart the app.</string>
 </resources>

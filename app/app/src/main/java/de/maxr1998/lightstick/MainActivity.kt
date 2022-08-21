@@ -1,40 +1,41 @@
 package de.maxr1998.lightstick
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import de.maxr1998.lightstick.ui.theme.LightstickControllerTheme
+import androidx.activity.viewModels
+import de.maxr1998.lightstick.permission.PermissionGrantedCallback
+import de.maxr1998.lightstick.permission.PermissionManager
+import de.maxr1998.lightstick.ui.ComposeApp
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), PermissionGrantedCallback {
+
+    private val mainViewModel: MainViewModel by viewModels()
+    private val permissionManager: PermissionManager = PermissionManager(this, this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            LightstickControllerTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
-            }
+            ComposeApp()
+        }
+
+        if (PermissionManager.hasBlePermission(this)) {
+            mainViewModel.tryScan()
+        } else {
+            permissionManager.requestBlePermission()
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+    override fun onPermissionGranted(permission: String) {
+        if (PermissionManager.hasBlePermission(this)) {
+            mainViewModel.tryScan()
+        }
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    LightstickControllerTheme {
-        Greeting("Android")
+    override fun onPermissionRejected(permission: String) {
+        Toast.makeText(this, R.string.ble_permission_required, Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
